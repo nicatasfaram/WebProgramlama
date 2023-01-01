@@ -1,5 +1,6 @@
 ﻿using Microsoft.Build.Framework;
 using System.ComponentModel.DataAnnotations;
+using RequiredAttribute = System.ComponentModel.DataAnnotations.RequiredAttribute;
 
 namespace WebProgramlama.Models
 {
@@ -8,13 +9,12 @@ namespace WebProgramlama.Models
         [Key]
         public int ComponentId { get; set; }
         [Required]
-        Category CategoryName { get; set; }
-
         public string Name { get; set; }
-        public float? Voltage { get; set; }
+        public float Voltage { get; set; }
         public string Description { get; set; }
-        public List<string> Projects { get; set; }
-        public string? LinkDatasheet { get; set; }
+        public string LinkDatasheet { get; set; }
+
+        public int CategoryId { get; set; }
 
     }
 }
