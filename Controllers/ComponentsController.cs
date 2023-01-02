@@ -22,7 +22,8 @@ namespace WebProgramlama.Controllers
         // GET: Components
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Components.ToListAsync());
+            var applicationDbContext = _context.Components.Include(c => c.Category);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Components/Details/5
@@ -34,6 +35,7 @@ namespace WebProgramlama.Controllers
             }
 
             var component = await _context.Components
+                .Include(c => c.Category)
                 .FirstOrDefaultAsync(m => m.ComponentId == id);
             if (component == null)
             {
@@ -46,7 +48,7 @@ namespace WebProgramlama.Controllers
         // GET: Components/Create
         public IActionResult Create()
         {
-            ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Name");
             return View();
         }
 
@@ -55,15 +57,15 @@ namespace WebProgramlama.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ComponentId,Name,Voltage,Description,LinkDatasheet,CategoryId")] Component component)
+        public async Task<IActionResult> Create([Bind("ComponentId,Name,Voltage,Description,LinkDatasheet,CategoryId,PictureUrl")] Component component)
         {
-            ViewBag.Categories =new SelectList(_context.Categories, "CategoryId", "Name");
             if (ModelState.IsValid)
             {
                 _context.Add(component);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Name", component.CategoryId);
             return View(component);
         }
 
@@ -80,6 +82,7 @@ namespace WebProgramlama.Controllers
             {
                 return NotFound();
             }
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", component.CategoryId);
             return View(component);
         }
 
@@ -88,7 +91,7 @@ namespace WebProgramlama.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ComponentId,Name,Voltage,Description,LinkDatasheet")] Component component)
+        public async Task<IActionResult> Edit(int id, [Bind("ComponentId,Name,Voltage,Description,LinkDatasheet,CategoryId,PictureUrl")] Component component)
         {
             if (id != component.ComponentId)
             {
@@ -115,6 +118,7 @@ namespace WebProgramlama.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", component.CategoryId);
             return View(component);
         }
 
@@ -127,6 +131,7 @@ namespace WebProgramlama.Controllers
             }
 
             var component = await _context.Components
+                .Include(c => c.Category)
                 .FirstOrDefaultAsync(m => m.ComponentId == id);
             if (component == null)
             {

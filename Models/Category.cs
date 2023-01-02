@@ -8,7 +8,6 @@ namespace WebProgramlama.Models
         [Key]
         public int CategoryId { get; set; }
         public string Name { get; set; }
-
         public ICollection<Component>? Components { get; set; }
     }
 }

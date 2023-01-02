@@ -25,6 +25,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.LinkDatasheet)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PictureUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -35,13 +41,26 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Voltage)
+                @Html.DisplayFor(modelItem => item.Voltage) V
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LinkDatasheet)
+
+                    <a href="@item.LinkDatasheet" download>
+                    <h5>Download Datasheet</h5>
+                </a>
+
+            </td>
+            <td>
+                @if (item.PictureUrl != null)
+                {
+                        <img id="picture" style="width:60px;height:60px; object-fit:cover; border-radius:30px" src="@item.PictureUrl" alt="@item.Name">
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ComponentId">Edit</a> |
