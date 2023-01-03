@@ -41,9 +41,30 @@ namespace WebProgramlama.Controllers
             {
                 return NotFound();
             }
+            ViewBag.Description = component.Description;
+            ViewBag.Comments = _context.Comments.Where(c => c.ComponentId == component.ComponentId).ToList();
 
             return View(component);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateComment([Bind("CommmentId,Text,UserName, ComponentId")] Comment comment)
+        {
+            if (ModelState.IsValid)
+            {
+                comment.CreateTime = System.DateTime.Now;
+                _context.Add(comment);
+                await _context.SaveChangesAsync();
+                var component = await _context.Components
+                .Include(c => c.Category)
+                .FirstOrDefaultAsync(m => m.ComponentId == comment.ComponentId);
+                ViewBag.Comments = _context.Comments.Where(c => c.ComponentId == comment.ComponentId).ToList();
+                return View("Details", component) ;
+            }
+            return View();
+        }
+
 
         // GET: Components/Create
         public IActionResult Create()

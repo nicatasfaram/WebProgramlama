@@ -44,6 +44,7 @@ namespace WebProgramlama.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            
         }
 
         /// <summary>
@@ -131,6 +132,7 @@ namespace WebProgramlama.Areas.Identity.Pages.Account
                     Email = Input.Email,
                     UserName = Input.Email,
                     DOB = Input.DOB
+
                 };
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);

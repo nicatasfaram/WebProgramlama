@@ -16,6 +16,8 @@ public class ApplicationDbContext : IdentityDbContext<User>
 
     public DbSet<Component> Components { get; set; }
 
+    public DbSet<Comment> Comments { get; set; }
+
 
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -25,4 +27,10 @@ public class ApplicationDbContext : IdentityDbContext<User>
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
     }
+
+
+
+
+
+    
 }

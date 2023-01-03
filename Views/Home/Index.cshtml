@@ -1,8 +1,27 @@
-﻿@{
+﻿@model IEnumerable<WebProgramlama.Models.Component>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var item in Model)
+    {
+        <div class="col">
+        <div class="card m-3 " style="max-width: 18rem;">
+            <img src="@item.PictureUrl" class="card-img-top" alt="item.Name">
+            <div class="card-body">
+                <h5 class="card-title">@item.Name</h5>
+                <p class="card-text">@item.Category.Name</p>
+                
+            </div>
+            <div class="card-footer">
+                <div class="text-center">
+                    <a class="btn btn-primary " asp-controller="Components" asp-action="Details" asp-route-id="@item.ComponentId">Details</a>
+                </div>
+            </div>
+        </div>
+        </div>
+    }
 </div>

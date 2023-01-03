@@ -11,45 +11,87 @@
     <h4>Component</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Voltage)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Voltage)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LinkDatasheet)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LinkDatasheet)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PictureUrl)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PictureUrl)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Category.CategoryId)
-        </dd>
+        <div class="col-8">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Voltage)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Voltage)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.LinkDatasheet)
+            </dt>
+
+            <dd class="col-sm-10">
+                <a href="@Model.LinkDatasheet" download>
+                    <h5>Download Datasheet</h5>
+                </a>
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Category)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Category.Name)
+            </dd>
+        </div>
+        <div class="card" style="width: 18rem;">
+            <img src="@Model.PictureUrl" class="card-img-top" alt="@Model.Name">
+        </div>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.ComponentId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="card mb-5" >
+        <div class="card-body">
+            <h5 class="card-title">@Html.DisplayNameFor(model => model.Description)</h5>
+            @Html.Raw(Model.Description)
+        </div>
+    </div> 
 </div>
+
+<div class="container">
+    @foreach(var item in ViewBag.Comments){
+        <div class="card mb-2">
+            <div class="card-header text-end">
+                @item.CreateTime
+            </div>
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <p>@item.Text</p>
+                    <footer class="blockquote-footer align-self-end">Author <cite title="Source Title">@item.UserName</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    }
+
+    <div>
+    <form asp-action="CreateComment" method="post" class="pb-3">
+        
+        <div class="form-group">
+            <label name="comment.Text" class="control-label"></label>
+            <textarea name="comment.Text" class="form-control" placeholder="Write Comment..."></textarea>
+            <span name="commment.Text" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input hidden name="comment.UserName" class="form-control" value="@User.Identity.Name" />
+        </div>
+        <div class="form-group">
+            <input hidden name="comment.ComponentId" class="form-control" value="@Model.ComponentId" />
+        </div>
+       
+        <div class="form-group mt-3">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+</div>
+
+
+
+

@@ -19,9 +19,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Voltage)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Description)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.LinkDatasheet)
             </th>
@@ -43,9 +43,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Voltage) V
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Description)
-            </td>
+            </td>*@
             <td>
 
                     <a href="@item.LinkDatasheet" download>

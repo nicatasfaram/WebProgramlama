@@ -172,6 +172,40 @@ namespace WebProgramlama.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("WebProgramlama.Models.Comment", b =>
+                {
+                    b.Property<int>("CommmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommmentId"), 1L, 1);
+
+                    b.Property<int>("ComponentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CommmentId");
+
+                    b.HasIndex("ComponentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("WebProgramlama.Models.Component", b =>
                 {
                     b.Property<int>("ComponentId")
@@ -183,9 +217,15 @@ namespace WebProgramlama.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CommentCount")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LikeCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("LinkDatasheet")
                         .IsRequired()
@@ -337,6 +377,21 @@ namespace WebProgramlama.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WebProgramlama.Models.Comment", b =>
+                {
+                    b.HasOne("WebProgramlama.Models.Component", null)
+                        .WithMany("Comments")
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebProgramlama.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("WebProgramlama.Models.Component", b =>
                 {
                     b.HasOne("WebProgramlama.Models.Category", "Category")
@@ -351,6 +406,11 @@ namespace WebProgramlama.Migrations
             modelBuilder.Entity("WebProgramlama.Models.Category", b =>
                 {
                     b.Navigation("Components");
+                });
+
+            modelBuilder.Entity("WebProgramlama.Models.Component", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

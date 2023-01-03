@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Build.Framework;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using RequiredAttribute = System.ComponentModel.DataAnnotations.RequiredAttribute;
 
 namespace WebProgramlama.Models
@@ -20,5 +21,14 @@ namespace WebProgramlama.Models
         public string PictureUrl { get; set; }
         [ValidateNever]
         public Category Category { get; set; }
+
+        [ValidateNever]
+        public int LikeCount { get; set; }
+
+        [ValidateNever]
+        public int CommentCount { get; set; }
+        [ValidateNever]
+        public ICollection<Comment> Comments { get; set; }
+
     }
 }
